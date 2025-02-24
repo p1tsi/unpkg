@@ -1,7 +1,7 @@
 #!/bin/sh
 CWD=`pwd`
 PKG_FILE=$1
-PKG_FILENAME="${PKG_FILE%.pkg}"
+PKG_FILENAME=`basename "$PKG_FILE" .pkg`
 EXTRACTION_DIR="$CWD/$PKG_FILENAME"
 
 
@@ -24,8 +24,8 @@ check_input() {
 cleanup_extraction_dir() {
     
     echo "[*] Removing previous $EXTRACTION_DIR"
-    rm -rf $EXTRACTION_DIR
-    mkdir $EXTRACTION_DIR
+    rm -rf "$EXTRACTION_DIR"
+    mkdir "$EXTRACTION_DIR"
 
 }
 
@@ -55,9 +55,9 @@ cleanup_extraction_dir
 
 # Extract .pkg file
 echo "[*] Unpack $PKG_FILE"
-xar -C $EXTRACTION_DIR -xf $PKG_FILE || exit
+xar -C "$EXTRACTION_DIR" -xf "$PKG_FILE" || exit
 
-cd $EXTRACTION_DIR
+cd "$EXTRACTION_DIR"
 
 # Get the value of tag 'pkg-ref' and remove the first character (it seems to be '#')
 APP_DIRS=`xmllint --xpath '//pkg-ref/text()' Distribution | cut -c2- | tr '[:space:]' '\n'`
