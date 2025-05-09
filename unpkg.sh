@@ -60,7 +60,7 @@ xar -C "$EXTRACTION_DIR" -xf "$PKG_FILE" || exit
 cd "$EXTRACTION_DIR"
 
 # Get the value of tag 'pkg-ref' and remove the first character (it seems to be '#')
-APP_DIRS=`xmllint --xpath '//pkg-ref/text()' Distribution | cut -c2- | tr '[:space:]' '\n'`
+APP_DIRS=`xmllint --xpath '//pkg-ref/text()' Distribution | sed 's/#//' | tr '[:space:]' '\n'`
 
 while IFS= read -r line; do
     if [ ! -z "$line" ]; then
